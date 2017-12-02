@@ -1,0 +1,63 @@
+#!/bin/bash
+#Ver canales de televisión por streaming
+NOMBRES="/home/mhyst/bin/scripts/tv/nombres.txt"
+URLS="/home/mhyst/bin/scripts/tv/urls.txt"
+PLAYER="vlc -f --no-loop --play-and-exit"
+
+function userChoice() {
+
+	local limite=$1
+	local cadena="$2"
+	local reply
+	let reply=0
+
+	echo > /dev/tty
+	echo "$cadena" > /dev/tty
+	read reply < /dev/tty
+	echo > /dev/tty
+
+	#We see if the user entered a number such as we need
+	while [[ "$reply" -lt 0 ]] || [[ "$reply" -gt  $limite ]]; do
+
+		#We give advice to the user and exit
+		echo "Tiene que introducir un número de entre los indicados:" > /dev/tty
+		read reply < /dev/tty
+		#echo "Reply es: $reply" > /dev/tty
+
+	done
+
+	echo $reply
+}
+
+readarray nombres < "$NOMBRES"; unset IFS
+readarray urls < "$URLS"; unset IFS
+echo "Nombres: ${#nombres[@]}"
+echo "Primer nombre: ${nombres[0]}"
+echo "URLs: ${#urls[@]}"
+echo "Primera URL: ${urls[0]}"
+
+let i=0
+echo "Estaciones de televisión"
+echo "------------------------"
+for nombre in "${nombres[@]}"; do
+	echo "$i) $(tr -d '\n' <<< $nombre)"
+	(( i++ ))
+done
+
+limite=$(( ${#nombres[@]} - 1 ))
+chosen=$(userChoice $limite "Seleccione la estación:")
+
+echo "Ha elegido el canal ${nombres[$chosen]}"
+
+if [ -f "/tmp/tvpid" ]; then
+	tvpid=$(< /tmp/tvpid)
+	if [[ $tvpid != "" ]]; then 
+		echo "Matando el otro reproductor..."
+		kill -9 "$tvpid"
+	fi
+fi
+
+echo "Reproduciendo"
+url=$(tr -d '\n' <<< "${urls[$chosen]}")
+${PLAYER} "$url" 2> /dev/null &
+echo "$!" > /tmp/tvpid

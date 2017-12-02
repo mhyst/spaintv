@@ -1,0 +1,17 @@
+http://hlsliveamdgl8-lh.akamaihd.net/i/hlsdvrlive_1@583030/master.m3u8
+http://hlsackdn-gl7.rtve.es/i/hlsdvrlive_1@566874/master.m3u8
+http://hlsackdn_gl0-lh.akamaihd.net/i/hlslive_1@439422/master.m3u8
+http://a3live-lh.akamaihd.net/i/antena3_1@35248/master.m3u8
+http://a3live-lh.akamaihd.net/i/a3shds/geoa3series_1@122775/master.m3u8
+http://cuatro-mediaset-esp-live.secure.footprint.net/mediaset/cuatro/stream1/streamPlaylist.m3u8
+http://telecinco-mediaset-esp-live.secure.footprint.net/mediaset/telecinco/stream1/streamPlaylist.m3u8
+http://a3live-lh.akamaihd.net/i/lasexta_1@35272/master.m3u8
+http://paramount.live.flumotion.com/live/chunks.m3u8
+http://telemadrid-live.hls.adaptive.level3.net/hls-live/telemadrid-telemadrid/_definst_/live/stream1.m3u8
+http://178.32.53.254/rtvd/livestream/playlist.m3u8
+http://a3live-lh.akamaihd.net/i/nvhds/geonova_1@379404/master.m3u8
+http://a3live-lh.akamaihd.net/i/nxhds/geoneox_1@35261/master.m3u8
+http://a3live-lh.akamaihd.net/i/mghds/geomega_1@328914/master.m3u8
+http://streaming.enetres.net/091DB7AFBD77442B9BA2F141DCC182F5021/mobile/playlist.m3u8
+http://kisstvnacional.es.flash.glb.canalweb.com/kisstvnacional.es/mp4:9KISSTV.mp4/playlist.m3u8
+http://178.32.255.199:1935/live/hispantv/playlist.m3u8
