@@ -32,20 +32,37 @@ function userChoice() {
 readarray nombres < "$NOMBRES"; unset IFS
 readarray urls < "$URLS"; unset IFS
 echo "Nombres: ${#nombres[@]}"
-echo "Primer nombre: ${nombres[0]}"
 echo "URLs: ${#urls[@]}"
-echo "Primera URL: ${urls[0]}"
 
-let i=0
-echo "Estaciones de televisión"
-echo "------------------------"
-for nombre in "${nombres[@]}"; do
-	echo "$i) $(tr -d '\n' <<< $nombre)"
-	(( i++ ))
-done
+if [[ "$#" > 0 ]]; then
+	cadena=${*,,}
+	let i=0
+	for nombre in "${nombres[@]}"; do
+		p="$(tr -d '\n' <<< $nombre)"
+		s=${p,,}
+		if [[ $s == *"$cadena"* ]]; then
+			chosen=$i
+			break
+		fi
+		(( i++ ))
+	done
 
-limite=$(( ${#nombres[@]} - 1 ))
-chosen=$(userChoice $limite "Seleccione la estación:")
+	if [[ $i == ${#nombres[@]} ]]; then
+		echo "No se ha encontrado ninguna cadena que coincida con \"$@\""
+		exit
+	fi
+else
+	let i=0
+	echo "Estaciones de televisión"
+	echo "------------------------"
+	for nombre in "${nombres[@]}"; do
+		echo "$i) $(tr -d '\n' <<< $nombre)"
+		(( i++ ))
+	done
+
+	limite=$(( ${#nombres[@]} - 1 ))
+	chosen=$(userChoice $limite "Seleccione la estación:")
+fi
 
 echo "Ha elegido el canal ${nombres[$chosen]}"
 
