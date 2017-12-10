@@ -69,8 +69,13 @@ echo "Ha elegido el canal ${nombres[$chosen]}"
 if [ -f "/tmp/tvpid" ]; then
 	tvpid=$(< /tmp/tvpid)
 	if [[ $tvpid != "" ]]; then 
-		echo "Matando el otro reproductor..."
-		kill -9 "$tvpid"
+		pcmd=$(ps -p $tvpid -o comm=)
+		#Debug
+		echo "Comando: >$pcmd<"
+		if [[ "$pcmd" == "vlc" ]]; then
+			echo "Matando el otro reproductor..."
+			kill -9 "$tvpid"
+		fi
 	fi
 fi
 
