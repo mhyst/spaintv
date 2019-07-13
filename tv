@@ -1,7 +1,6 @@
 #!/bin/bash
 #Ver canales de televisión por streaming
-NOMBRES="/home/mhyst/bin/scripts/tv/nombres.txt"
-URLS="/home/mhyst/bin/scripts/tv/urls.txt"
+CANALES="/home/$USER/.local/tv.mhyst/tv.conf"
 #PLAYER="vlc -f --no-loop --play-and-exit"
 PLAYER="mpv --fs"
 
@@ -30,16 +29,32 @@ function userChoice() {
 	echo $reply
 }
 
-readarray nombres < "$NOMBRES"; unset IFS
-readarray urls < "$URLS"; unset IFS
-echo "Nombres: ${#nombres[@]}"
-echo "URLs: ${#urls[@]}"
+function getURL() {
+    local canal="$1"
+    
+    local url="${canal##*|}"
+    url=$(tr -d '\n' <<< "$url")
+    echo "$url"
+}
+
+function getNombre() {
+    local canal="$1"
+
+    local nombre="${canal%|*}"
+    echo "$nombre"
+}
+
+readarray canales < "$CANALES"
+echo "Canales: ${#canales[@]}"
 
 if [[ "$#" > 0 ]]; then
 	cadena=${*,,}
 	let i=0
-	for nombre in "${nombres[@]}"; do
-		p="$(tr -d '\n' <<< $nombre)"
+	for canal in "${canales[@]}"; do
+		nombre=$(getNombre "$canal")
+		echo "Canal: $canal"
+		echo "Nombre: $nombre"
+		p="$nombre"
 		s=${p,,}
 		if [[ $s == *"$cadena"* ]]; then
 			chosen=$i
@@ -48,7 +63,7 @@ if [[ "$#" > 0 ]]; then
 		(( i++ ))
 	done
 
-	if [[ $i == ${#nombres[@]} ]]; then
+	if [[ $i == ${#canales[@]} ]]; then
 		echo "No se ha encontrado ninguna cadena que coincida con \"$@\""
 		exit
 	fi
@@ -56,16 +71,19 @@ else
 	let i=0
 	echo "Estaciones de televisión"
 	echo "------------------------"
-	for nombre in "${nombres[@]}"; do
-		echo "$i) $(tr -d '\n' <<< $nombre)"
+	for canal in "${canales[@]}"; do
+		echo "$i) $(getNombre "$canal")"
 		(( i++ ))
 	done
 
-	limite=$(( ${#nombres[@]} - 1 ))
+	limite=$(( ${#canales[@]} - 1 ))
 	chosen=$(userChoice $limite "Seleccione la estación:")
 fi
 
-echo "Ha elegido el canal ${nombres[$chosen]}"
+canal=${canales[$chosen]}
+nombre=$(getNombre "$canal")
+url=$(getURL "$canal")
+echo "Ha elegido el canal $nombre"
 
 if [ -f /tmp/tvpid ]; then
 	tvpid=$(< /tmp/tvpid)
@@ -82,6 +100,5 @@ if [ -f /tmp/tvpid ]; then
 fi
 
 echo "Reproduciendo"
-url=$(tr -d '\n' <<< "${urls[$chosen]}")
 ${PLAYER} "$url" 2> /dev/null &
 echo "$!" > /tmp/tvpid
