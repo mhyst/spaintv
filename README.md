@@ -11,13 +11,13 @@ Ver la televisión de España en streaming en tu reproductor favorito. Así de s
 
 ## Instalación
 
-Para instalar el script simplemente habrá que copiar los archivos a una carpeta, modificar las variables NOMBRES y URLS para indicar la ruta del archivo de nombres y la ruta del archivo de urls; modificar la variable PLAYER para indicar qué reproductor queremos utilizar para ver la tele; y por último copiar el archivo 'tv' a /usr/local/bin o a cualquier carpeta que se encuentre añadida al PATH.
+Para instalar el script simplemente habrá que copiar los archivos a una carpeta, modificar la variable PLAYER para indicar qué reproductor queremos utilizar para ver la tele; y copiar el archivo 'tv' a /usr/local/bin o a cualquier carpeta que se encuentre añadida al PATH. La primera vez que ejecute el script se descargará el archivo de configuración automáticamente. 
 
 ## Dependencias
 
 Únicamente se requiere un reproductor.
 
-## Modo de uso
+## Modo de empleo
 
 El script puede llamarse sin argumentos, en cuyo caso se mostrará el menú de canales, en el que una vez indicado el número del canal que queremos se procederá a reproducir. Pueden agregarse argumentos en la llamada que se interpretarán como una cadena de búsqueda de canal. En ese caso se intentará buscar un canal que coincida. Es posible utilizar cadenas de búsquedas parciales. En caso de que más de un canal coincida, se reproducirá el primero en el orden numérico.
 
