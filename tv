@@ -3,6 +3,7 @@
 CANALES="/home/$USER/.local/tv.mhyst/tv.conf"
 #PLAYER="vlc -f --no-loop --play-and-exit"
 PLAYER="mpv --fs"
+VERSION="2.3.0"
 
 function userChoice() {
 
@@ -44,16 +45,39 @@ function getNombre() {
     echo "$nombre"
 }
 
+function checkConfig() {
+	if ! [ -f /home/$USER/.local/tv.mhyst/tv.conf ]; then
+		echo "Es la primera vez que ejecuta el script."
+		echo "Se procederá a descargar el archivo de configuración:"
+		mkdir /home/$USER/.local/tv.mhyst
+		wget -O /home/$USER/.local/tv.mhyst/tv.conf https://raw.githubusercontent.com/mhyst/spaintv/master/tv.conf
+	fi
+}
+
+echo "tv version $VERSION - Copyleft (GPL v3) Julio Serrano 2019"
+echo "Ver televisión de España en streaming."
+echo
+
+checkConfig
+
 readarray canales < "$CANALES"
-echo "Canales: ${#canales[@]}"
+if [[ ${#CANALES[@]} == 0 ]]; then
+	echo "No hay canales!"
+	echo
+	echo "Por alguna razón no tiene canales en su fichero de configuración"
+	echo "o no tiene archivo de configuración."
+	echo
+	echo "Aseguresé de tener conexión a internet la próxima vez que ejecute"
+	echo "el script."
+fi
+
+# echo "Canales: ${#canales[@]}"
 
 if [[ "$#" > 0 ]]; then
 	cadena=${*,,}
 	let i=0
 	for canal in "${canales[@]}"; do
 		nombre=$(getNombre "$canal")
-		echo "Canal: $canal"
-		echo "Nombre: $nombre"
 		p="$nombre"
 		s=${p,,}
 		if [[ $s == *"$cadena"* ]]; then
