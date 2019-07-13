@@ -2,7 +2,8 @@
 #Ver canales de televisión por streaming
 NOMBRES="/home/mhyst/bin/scripts/tv/nombres.txt"
 URLS="/home/mhyst/bin/scripts/tv/urls.txt"
-PLAYER="vlc -f --no-loop --play-and-exit"
+#PLAYER="vlc -f --no-loop --play-and-exit"
+PLAYER="mpv --fs"
 
 function userChoice() {
 
@@ -66,13 +67,14 @@ fi
 
 echo "Ha elegido el canal ${nombres[$chosen]}"
 
-if [ -f "/tmp/tvpid" ]; then
+if [ -f /tmp/tvpid ]; then
 	tvpid=$(< /tmp/tvpid)
+	#echo "tvpid: $tvpid"
 	if [[ $tvpid != "" ]]; then 
 		pcmd=$(ps -p $tvpid -o comm=)
 		#Debug
-		echo "Comando: >$pcmd<"
-		if [[ "$pcmd" == "vlc" ]]; then
+		#echo "Comando: >$pcmd<"
+		if [[ "$pcmd" == "vlc" ]] || [[ "$pcmd" == "mpv" ]]; then
 			echo "Matando el otro reproductor..."
 			kill -9 "$tvpid"
 		fi
