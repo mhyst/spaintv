@@ -7,11 +7,15 @@ No es que quiera promocionar la televisión. De hecho lo mejor que puede hacerse
 
 ## Objetivo
 
-Ver la televisión de España en streaming en tu reproductor favorito. Así de simple. Por desgracia no se pueden ver todos los canales disponibles en antena, ya que no ha sido posible sustraer la url de streaming más que de unos cuantos. De todas formas, tanto los nombres de los canales como las urls de streaming se encuentran en sendos archivos de texto que pueden ser editados para ver canales de otros países o canales que vayan apareciendo. Yo iré manteniendo estos archivos, no obstante, si alguien encuentra nuevos canales, puede hacer un pull request.
+Ver la televisión de España en streaming en tu reproductor favorito. Así de simple. Por desgracia no se pueden ver todos los canales disponibles en antena, ya que no ha sido posible sustraer la url de streaming más que de unos cuantos. De todas formas, tanto los nombres de los canales como las urls de streaming se encuentran en el archivo de texto '/home/$USER/.local/tv.mhyst/tv.conf'. Este archivo puede ser editado para añadir o quitar canales al gusto de cada uno. Por supuesto, se pueden añadir canales de otros países o canales que vayan apareciendo. Yo iré manteniendo este archivo conforme vea que las URLs dejen de funcionar, no obstante, si alguien encuentra nuevos canales o se da cuenta de que uno no funciona antes que yo, puede hacer un pull request.
 
 ## Instalación
 
-Para instalar el script simplemente habrá que copiar los archivos a una carpeta, modificar la variable PLAYER para indicar qué reproductor queremos utilizar para ver la tele; y copiar el archivo 'tv' a /usr/local/bin o a cualquier carpeta que se encuentre añadida al PATH. La primera vez que ejecute el script se descargará el archivo de configuración automáticamente. 
+Para instalar el script simplemente habrá que copiar los archivos a una carpeta, modificar la variable PLAYER para indicar qué reproductor queremos utilizar para ver la tele; y copiar los archivos 'tv' y 'tvupdate' a /usr/local/bin o a cualquier carpeta que se encuentre añadida al PATH. La primera vez que ejecute el script se descargará el archivo de configuración automáticamente. 
+
+## Novedades
+
+- 13/07/2019: Nuevo script de actualización de canales 'tvupdate'. Este script se descarga el archivo de configuración de este repositorio, actualiza los canales y añade canales nuevos. El script respeta el orden en que se hayan puesto los canales y hace una copia de seguridad del original. Puede programarse su ejecución en el crontab de forma que se ejecute una vez al día, una vez a la semana, etc.
 
 ## Dependencias
 
@@ -35,10 +39,12 @@ tv 24
 
 tv la 2
 
+tvupdate
+
 
 ---
 
 Una vez estemos viendo el streaming de un canal podemos poner la ventana del terminal en primer plano (o usar alt+f2) para cambiar de canal. Se cerrará el reproductor actual antes de reproducir el nuevo canal.
 
-> Nota: Para que esta última característica funcione, si su reproductor no es vlc o mpv, deberá modificar la línea 77 del script y sustituir donde pone vlc o mpv por el comando con el que se invoca su reproductor.
+> Nota: Para que esta última característica funcione, si su reproductor no es vlc o mpv, deberá modificar la línea 119 del script y sustituir donde pone vlc o mpv por el comando con el que se invoca su reproductor.
 
